@@ -9,6 +9,8 @@ module DMV
     inheritable_attr :_attributes
     self._attributes = Hash.new
 
+    attr_reader :attributes
+
     # Adds an attribute to the forms attributes set and creates accessors
     #
     # @param name The name of the attribute
@@ -24,7 +26,15 @@ module DMV
         end
 
         _attributes[name] = options.freeze
-        attr_accessor name
+        class_eval <<-ATTR, __FILE__, __LINE__ + 1
+          def #{name}
+            get(:#{name})
+          end
+
+          def #{name}=(value)
+            set(:#{name}, value)
+          end
+        ATTR
       end
     end
 
@@ -40,9 +50,21 @@ module DMV
     #
     # @param attributes A hash of attributes to be set
     def initialize attributes = {}
-      attributes.each do |attribute, value|
-        send("#{attribute}=", value)
-      end
+      @attributes = attributes || {}
+
+      attributes.each { |attribute, value| set attribute, value }
+    end
+
+    # Sets an attribute value and performs any coercions needed
+    #
+    # @param attribute The name of an attribute
+    # @param value The value you would like to set the attribute to
+    def set attribute, value
+      attributes[attribute] = value
+    end
+
+    def get attribute
+      attributes[attribute]
     end
   end
 end

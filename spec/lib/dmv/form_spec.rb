@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe DMV::Form do
-  subject(:form_class) { Class.new(described_class) }
+  let(:form_class) { Class.new(described_class) }
 
   describe '.attribute' do
     it 'adds the attribute to the attribute set' do
@@ -64,6 +64,28 @@ RSpec.describe DMV::Form do
 
         expect(form.bunk).to eq('hello')
         expect(form.foo).to eq('world')
+      end
+    end
+  end
+
+  describe 'Accessors' do
+    subject(:form) { form_class.new }
+
+    before { form_class.attribute :bunk }
+
+    describe '#set' do
+      it 'sets the value of the attribute' do
+        form.set(:bunk, 'testing123')
+
+        expect(form.bunk).to eq('testing123')
+      end
+    end
+
+    describe '#get' do
+      it 'gets the value for an attribute' do
+        form.set(:bunk, 'bunkfoo')
+
+        expect(form.get(:bunk)).to eq('bunkfoo')
       end
     end
   end
