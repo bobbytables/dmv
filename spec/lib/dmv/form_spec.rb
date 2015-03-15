@@ -14,6 +14,11 @@ RSpec.describe DMV::Form do
       form_class.attribute :bunk_attr
       expect { form_class.attribute :bunk_attr }.to raise_error(DMV::AttributeAlreadyDefined)
     end
+
+    it 'can set multiple attributes in one call' do
+      form_class.attribute :hello, :world
+      expect(form_class._attributes.length).to be(2)
+    end
   end
 
   describe '.attributes' do

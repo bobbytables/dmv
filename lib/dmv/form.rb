@@ -13,14 +13,18 @@ module DMV
     #
     # @param name The name of the attribute
     # @param options [Hash] The options for this attribute (type for example)
-    def self.attribute name, options = {}
-      name = name.to_sym
+    def self.attribute(*names)
+      options = names.last.kind_of?(Hash) ? names.pop : {}
 
-      if _attributes.keys.include?(name)
-        raise AttributeAlreadyDefined, "the attribute #{name} has already been defined"
+      names.each do |name|
+        name = name.to_sym
+
+        if _attributes.keys.include?(name)
+          raise AttributeAlreadyDefined, "the attribute #{name} has already been defined"
+        end
+
+        _attributes[name] = options.freeze
       end
-
-      _attributes[name] = options.freeze
     end
 
     # Returns a cloned frozen hash containing the details of the
