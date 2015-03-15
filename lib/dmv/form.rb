@@ -7,7 +7,6 @@ module DMV
     extend Uber::InheritableAttr
 
     inheritable_attr :_attributes
-    inheritable_attr :_attributes
     self._attributes = Hash.new
 
     # Adds an attribute to the forms attributes set
