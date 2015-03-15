@@ -9,11 +9,11 @@ module DMV
     inheritable_attr :_attributes
     self._attributes = Hash.new
 
-    # Adds an attribute to the forms attributes set
+    # Adds an attribute to the forms attributes set and creates accessors
     #
     # @param name The name of the attribute
     # @param options [Hash] The options for this attribute (type for example)
-    def self.attribute(*names)
+    def self.attribute *names
       options = names.last.kind_of?(Hash) ? names.pop : {}
 
       names.each do |name|
@@ -24,6 +24,7 @@ module DMV
         end
 
         _attributes[name] = options.freeze
+        attr_accessor name
       end
     end
 
@@ -33,6 +34,15 @@ module DMV
     # @return Hash (frozen)
     def self.attributes
       _attributes.clone.freeze
+    end
+
+    # Initialize a new form instance from values
+    #
+    # @param attributes A hash of attributes to be set
+    def initialize attributes = {}
+      attributes.each do |attribute, value|
+        send("#{attribute}=", value)
+      end
     end
   end
 end

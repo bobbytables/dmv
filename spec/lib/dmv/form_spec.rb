@@ -29,13 +29,16 @@ RSpec.describe DMV::Form do
       form_class.attribute :bunk, hello: 'world'
       expect(form_class._attributes[:bunk]).to eq(hello: 'world')
     end
+
+    it 'creates accessors for the attributes' do
+      form_class.attribute :bunk
+      form = form_class.new
+      expect(form).to respond_to(:bunk).and respond_to(:bunk=)
+    end
   end
 
   describe '.attributes' do
-    before do
-      form_class.attribute :hello
-      form_class.attribute :world
-    end
+    before { form_class.attribute :hello, :world }
 
     it 'returns all attributes defined on the form' do
       expect(form_class.attributes).to include(
@@ -53,6 +56,15 @@ RSpec.describe DMV::Form do
   end
 
   describe '#initialize' do
+    before { form_class.attribute :bunk, :foo }
 
+    context 'with a hash as the first argument' do
+      it 'sets the attributes to the corresponding values' do
+        form = form_class.new(bunk: 'hello', foo: 'world')
+
+        expect(form.bunk).to eq('hello')
+        expect(form.foo).to eq('world')
+      end
+    end
   end
 end
