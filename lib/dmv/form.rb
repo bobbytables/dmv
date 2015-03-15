@@ -63,6 +63,10 @@ module DMV
       attributes[attribute] = value
     end
 
+    # Retrieve the value for an attribute
+    #
+    # @param attribute [Symbol] Name of an attribute
+    # @return attribute value
     def get attribute
       attributes[attribute]
     end
