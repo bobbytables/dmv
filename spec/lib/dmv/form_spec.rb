@@ -16,7 +16,7 @@ RSpec.describe DMV::Form do
         parent_class.middleware.use Proc.new { |env| }
         child_class.middleware.use Proc.new { |env| }
 
-        expect(parent_class.middleware.send(:stack).length).to be(1)
+        expect(parent_class.middleware.stack.length).to be(1)
       end
     end
   end
