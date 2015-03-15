@@ -19,6 +19,16 @@ RSpec.describe DMV::Form do
       form_class.attribute :hello, :world
       expect(form_class._attributes.length).to be(2)
     end
+
+    it 'defaults the options on the attribute to an empty hash' do
+      form_class.attribute :bunk
+      expect(form_class._attributes[:bunk]).to eq({})
+    end
+
+    it 'sets the options hash passed in to the attribute being set' do
+      form_class.attribute :bunk, hello: 'world'
+      expect(form_class._attributes[:bunk]).to eq(hello: 'world')
+    end
   end
 
   describe '.attributes' do
