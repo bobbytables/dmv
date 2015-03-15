@@ -1,3 +1,3 @@
-module Dmv
+module DMV
   VERSION = "0.1.0"
 end

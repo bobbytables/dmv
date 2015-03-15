@@ -5,7 +5,7 @@ require 'dmv/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "dmv"
-  spec.version       = Dmv::VERSION
+  spec.version       = DMV::VERSION
   spec.authors       = ["Robert Ross"]
   spec.email         = ["rross@digitalocean.com"]
 
@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.8"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec", "~> 3.2"
 end
