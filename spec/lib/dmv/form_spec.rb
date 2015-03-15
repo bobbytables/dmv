@@ -3,6 +3,24 @@ require 'spec_helper'
 RSpec.describe DMV::Form do
   let(:form_class) { Class.new(described_class) }
 
+  describe '.middleware' do
+    it 'returns a Middleware::Builder object' do
+      expect(form_class.middleware).to be_kind_of(DMV::Middleware)
+    end
+
+    context 'inheritance' do
+      let(:parent_class) { form_class }
+      let(:child_class) { Class.new(parent_class) }
+
+      it 'does not screw with the parent classes middleware' do
+        parent_class.middleware.use Proc.new { |env| }
+        child_class.middleware.use Proc.new { |env| }
+
+        expect(parent_class.middleware.send(:stack).length).to be(1)
+      end
+    end
+  end
+
   describe '.attribute' do
     it 'adds the attribute to the attribute set' do
       form_class.attribute :bunk_attr

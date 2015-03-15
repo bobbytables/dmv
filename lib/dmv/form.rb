@@ -9,6 +9,9 @@ module DMV
     inheritable_attr :_attributes
     self._attributes = Hash.new
 
+    inheritable_attr :middleware
+    self.middleware = DMV::Middleware.new
+
     attr_reader :attributes
 
     # Adds an attribute to the forms attributes set and creates accessors
