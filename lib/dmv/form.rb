@@ -50,8 +50,7 @@ module DMV
     #
     # @param attributes A hash of attributes to be set
     def initialize attributes = {}
-      @attributes = attributes || {}
-
+      @attributes = {}
       attributes.each { |attribute, value| set attribute, value }
     end
 
